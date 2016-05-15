@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   belongs_to :role
   belongs_to :sector
   has_and_belongs_to_many :records
+  has_many :jobs
 
   def admin?
     self.role.name == 'Administrador'

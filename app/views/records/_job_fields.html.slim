@@ -1,0 +1,24 @@
+.nested-fields style="margin: 15px 0px 15px 0px"
+  
+  .row
+    
+    .col-sm-6.col-xs-12
+      .form-group
+        = f.label 'Nome do Membro'
+        = f.select :user_id, User.all.order(:name).map { |u| [u.name, u.id] },
+                             { include_blank: 'Selecione o membro' },
+                             { class: 'form-control' }
+    .col-sm-4.col-xs-6
+      .form-group
+        = f.label 'Data e Horário'
+        #datetimepicker.input-group.date
+          = f.text_field :deadline, class:'form-control', required: true
+          span.input-group-addon
+            span.glyphicon.glyphicon-calendar
+
+    .col-sm-2.col-xs-6
+      div style="margin-top: 39px"
+        = link_to_remove_association f, class: 'btn btn-warning btn-block' do
+          | Excluir Tarefa
+          | &nbsp;&nbsp;
+          i.fa.fa-times
