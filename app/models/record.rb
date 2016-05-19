@@ -1,6 +1,7 @@
 class Record < ActiveRecord::Base
 
   belongs_to :sector
+  has_one :meeting
   has_many :records_users, dependent: :destroy
   has_many :users, through: :records_users, class_name: 'User'
 

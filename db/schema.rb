@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160515141357) do
+ActiveRecord::Schema.define(version: 20160515172245) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,28 @@ ActiveRecord::Schema.define(version: 20160515141357) do
 
   add_index "discussions", ["record_id"], name: "index_discussions_on_record_id", using: :btree
 
+  create_table "jobs", force: :cascade do |t|
+    t.integer  "record_id"
+    t.integer  "user_id"
+    t.string   "description"
+    t.string   "deadline"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "jobs", ["record_id"], name: "index_jobs_on_record_id", using: :btree
+  add_index "jobs", ["user_id"], name: "index_jobs_on_user_id", using: :btree
+
+  create_table "meetings", force: :cascade do |t|
+    t.integer  "sector_id"
+    t.string   "date"
+    t.string   "number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "meetings", ["sector_id"], name: "index_meetings_on_sector_id", using: :btree
+
   create_table "records", force: :cascade do |t|
     t.string   "date"
     t.datetime "created_at", null: false
@@ -47,8 +69,10 @@ ActiveRecord::Schema.define(version: 20160515141357) do
     t.integer  "number"
     t.integer  "sector_id"
     t.text     "discussion"
+    t.integer  "meeting_id"
   end
 
+  add_index "records", ["meeting_id"], name: "index_records_on_meeting_id", using: :btree
   add_index "records", ["sector_id"], name: "index_records_on_sector_id", using: :btree
 
   create_table "records_users", force: :cascade do |t|
@@ -106,6 +130,10 @@ ActiveRecord::Schema.define(version: 20160515141357) do
   add_index "users", ["sector_id"], name: "index_users_on_sector_id", using: :btree
 
   add_foreign_key "discussions", "records"
+  add_foreign_key "jobs", "records"
+  add_foreign_key "jobs", "users"
+  add_foreign_key "meetings", "sectors"
+  add_foreign_key "records", "meetings"
   add_foreign_key "records", "sectors"
   add_foreign_key "records_users", "records"
   add_foreign_key "records_users", "statuses"

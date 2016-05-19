@@ -1,0 +1,38 @@
+= content_for :title, 'Nova Reunião'
+
+= form_for @meeting do |f|
+  
+  .modal-body
+
+    .row
+
+      .col-sm-8.col-xs-12
+        .form-group
+          = f.label 'Núcleo'
+          - if current_user.admin?
+            = f.select :sector_id, Sector.all.map { |s| [s.name, s.id] }, {}, { class: 'form-control' }
+          - else
+            = f.hidden_field :sector_id, value: current_user.sector.id
+            = text_field_tag :dont_care, current_user.sector.name, class: 'form-control', disabled: true
+
+      .col-sm-4.col-xs-12
+        .form-group
+          = f.label 'Reunião de nº'
+          = f.number_field :number, value: @number, class:'form-control', required: true
+
+    .form-group
+      = f.label 'Data e Horário'
+      #datetimepicker.input-group.date
+        = f.text_field :date, class:'form-control', required: true
+        span.input-group-addon
+          span.glyphicon.glyphicon-calendar
+    
+  .modal-footer
+    = f.submit 'Criar', class:'btn btn-success'
+
+javascript:
+  $(document).ready(function() {
+    $('#datetimepicker').datetimepicker({
+      locale: 'pt-br'
+    });
+  });

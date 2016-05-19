@@ -1,0 +1,15 @@
+p#notice = notice
+
+p
+  strong Sector:
+  = @meeting.sector
+p
+  strong Date:
+  = @meeting.date
+p
+  strong Number:
+  = @meeting.number
+
+= link_to 'Edit', edit_meeting_path(@meeting)
+'|
+= link_to 'Back', meetings_path

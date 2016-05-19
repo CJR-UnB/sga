@@ -1,0 +1,7 @@
+- unless @meeting.updated_at.nil?
+  .visible-xs
+    .text-center
+      = 'Última atualização em ' + traduz_data_e_hora(@meeting.updated_at - 60 * 60 * 3)
+
+  .hidden-xs
+    = 'Última atualização em ' + traduz_data_e_hora(@meeting.updated_at - 60 * 60 * 3)

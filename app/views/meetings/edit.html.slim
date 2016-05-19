@@ -1,0 +1,52 @@
+- unless current_user.admin? or @meeting.sector.short_name == current_user.sector.short_name
+  - redirect_to_root
+
+= content_for :text_logo, "#{@meeting.number}ª #{select_meeting_name(@meeting.sector.short_name)}"
+
+= form_for @meeting do |f|
+
+  / Informações Básicas
+  .row
+
+    .col-sm-12
+      .alert.alert-info
+        - unless @meeting.updated_at.nil?
+          = render 'updated_at'
+
+    .col-sm-12
+      h4 Informações Básicas
+
+    .col-sm-12
+      hr.divider
+    
+    .col-sm-12
+
+      .form-group
+        = f.label 'Data e Horário'
+        #datetimepicker.input-group.date
+          = f.text_field :date, class:'form-control', required: true
+          span.input-group-addon
+            span.glyphicon.glyphicon-calendar
+      
+    .col-sm-6.col-xs-12
+      .form-group
+        = f.label 'Núcleo'
+        = f.select :sector_id, Sector.all.map { |s| [s.name, s.id] }, {}, { class:'form-control', required: true }
+        
+    .col-sm-6.col-xs-12
+      .form-group
+        = f.label 'Reunião de nº'
+        = f.number_field :number, class:'form-control', required: true
+
+  / Submit e voltar
+  .row
+    .col-sm-12 style="margin-top: 10px"
+      = f.submit 'Salvar Reunião', class:'btn btn-success'
+      = link_to 'Voltar', records_path, class:'btn btn-default pull-right'
+
+javascript:
+  $(document).ready(function() {
+    $('#datetimepicker').datetimepicker({
+      locale: 'pt-br'
+    });
+  });

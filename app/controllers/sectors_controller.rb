@@ -6,4 +6,8 @@ class SectorsController < ApplicationController
     @records = Sector.find(params[:id]).records
   end
 
+  def meetings
+    @meetings = Sector.find(params[:id]).meetings
+  end
+
 end

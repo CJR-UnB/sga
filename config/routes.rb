@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
 
+  resources :meetings
   devise_for :users
   resources :users
   resources :records
 
   get '/sectors/:id/records' => 'sectors#records'
+  get '/sectors/:id/meetings' => 'sectors#meetings'
 
   devise_scope :user do
     get '/login' => 'devise/sessions#new'

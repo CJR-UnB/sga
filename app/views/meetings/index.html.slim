@@ -1,0 +1,37 @@
+= content_for :text_logo, 'Sistema de Gerenciamento de Reuniões'
+
+.row
+
+  = form_tag do
+    
+    .col-sm-9.col-xs-12
+      = collection_select :sector, :id, Sector.all, 
+                          :id, :name, { prompt: 'Selecione um núcleo', 
+                                        selected: session[:sector_id] },
+                          class:'form-control', id: 'sector-select'
+
+    .col-sm-3.col-xs-12
+      = link_to 'Nova Reunião', new_meeting_path, data: { modal: true }, class: 'btn btn-success btn-block'
+
+.row style="margin-top: 20px"
+
+  .col-sm-12
+
+    #meetings
+      table.table
+        thead
+          tr
+            th Número
+            th Data
+            th Núcleo
+            th
+
+        tbody
+
+          - @meetings.each do |meeting|
+          
+            tr
+              td = meeting.number
+              td = meeting.date
+              td = meeting.sector.name
+              td align="right" = link_to 'Visualizar Reunião', meeting
